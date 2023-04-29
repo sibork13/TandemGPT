@@ -61,7 +61,7 @@ class Cookie_extractor():
                 # not supported
                 return ""
 
-    def extractor(self):
+    def extractor(self,site):
 
         # local sqlite Chrome cookie database path
         db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
@@ -77,15 +77,11 @@ class Cookie_extractor():
         # ignore decoding errors
         db.text_factory = lambda b: b.decode(errors="ignore")
         cursor = db.cursor()
-        # get the cookies from `cookies` table
-        #cursor.execute("""
-        #SELECT host_key, name, value, creation_utc, last_access_utc, expires_utc, encrypted_value 
-        #FROM cookies""")
-        # you can also search by domain, e.g thepythoncode.com
-        cursor.execute("""
+        # get the cookies from `cookies` table using certain domain
+        cursor.execute(f"""
         SELECT host_key, value, is_httponly, path, is_secure, expires_utc, name, encrypted_value
         FROM cookies
-        WHERE host_key = '.twitch.tv'""")
+        WHERE host_key like '%{site}%'""")
         # get the AES key
         key = self.get_encryption_key()
         for host_key,value, is_httponly, path, is_secure, expires_utc, name, encrypted_value in cursor.fetchall():
@@ -93,16 +89,15 @@ class Cookie_extractor():
                 decrypted_value = self.decrypt_data(encrypted_value, key)
                 cookies_list = [host_key, is_httponly, path, is_secure, expires_utc, name, decrypted_value]
                 self.site_cookies_list.append(cookies_list)
-            #print(domain_list)
-            # update the cookies table with the decrypted value
-            # and make session cookie persistent
-            #cursor.execute("""
-            #UPDATE cookies SET value = ?, has_expires = 1, expires_utc = 99999999999999999, is_persistent = 1, is_secure = 0
-            #WHERE host_key = ?
-            #AND name = ?""", (decrypted_value, host_key, name))
-        # commit changes
-        db.commit()
         # close connection
         db.close()
         remove(filename)
         return self.site_cookies_list
+    
+    def get_cookies_txt(self,site):
+        data = self.extractor(site)
+        with open('cookies.txt', 'w') as f:
+            for row in data:
+                line = ' '.join(str(x) for x in row) + '\n'
+                line = line.replace(' ','	')
+                f.write(line)
