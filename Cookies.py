@@ -85,7 +85,8 @@ class Cookie_extractor():
         # get the AES key
         key = self.get_encryption_key()
         for host_key,value, is_httponly, path, is_secure, expires_utc, name, encrypted_value in cursor.fetchall():
-            if path == '/':
+            #if path == '/':
+            if 'auth' not in host_key:
                 decrypted_value = self.decrypt_data(encrypted_value, key)
                 cookies_list = [host_key, is_httponly, path, is_secure, expires_utc, name, decrypted_value]
                 self.site_cookies_list.append(cookies_list)
