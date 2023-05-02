@@ -6,7 +6,7 @@ class Text_Voice():
         self.engine = pyttsx3.init()
 
         # Configurar la velocidad de la voz
-        self.engine.setProperty('rate', 150)   # Velocidad de 150 palabras por minuto
+        self.engine.setProperty('rate', 130)   # Velocidad de 150 palabras por minuto
 
         # Configurar el volumen de la voz
         self.engine.setProperty('volume', 0.7) # Volumen al 70% (valor entre 0 y 1)

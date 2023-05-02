@@ -55,18 +55,18 @@ class Webdriver():
         # import cookies into selenium webdriver (to bypass authenticate)
         cookies = self.read_cookies()
         print ('[+] Read {} cookies'.format(len(cookies)))
-        print (cookies)
+        ##print (cookies)
         self.driver.get(self.url)
         #self.driver.maximize_window()
         time.sleep(3)
         print(';AS COOKIES DEL BOT SON\n\n')
-        print(self.driver.get_cookies())
+        #print(self.driver.get_cookies())
         # adding cookies
         for c in cookies:
             self.driver.add_cookie(c)
         print ('')
         print ('[+] Added cookies')
-        print(self.driver.get_cookies())
+        ##print(self.driver.get_cookies())
         self.driver.get(self.url)
         #time.sleep(10)
     
@@ -82,27 +82,28 @@ class Webdriver():
         done.click()
         # find chat
         time.sleep(3)
-        ''' 
-        chat = self.driver.find_element(By.XPATH,'//*[@id="__next"]/div[2]/div[1]/div/div/nav/div[2]/div/div/span[1]/div[1]/ol/li/a')
-        # clicking chat 
-        chat.click()
-        time.sleep(1)
-        '''
-        
 
+    
 
-    # AUN FALTA CHECARLO BIEN
-    def start_chat(self):
-        first_text = "hi bro, i'm studyng english so i need your help, i need you end with the word 'SAIGO' at the end of every answer that you give me, i dont need examples, starting from now"
+    def start_chat(self,first_text):
+        #first_text = "こんにちは、私は日本語を勉強しているので、私の編集に誤りがあれば教えてください。"
         # find text box and send text
         self.driver.find_element(By.XPATH,'//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[2]/textarea').send_keys(first_text + Keys.ENTER)
+        # wait until full response are received
+        WebDriverWait(self.driver, 19).until(lambda driver: driver.execute_script("return document.readyState") == "complete")
 
-    def talk(self):
-        # waitint until SAIGO appears in response
-        time.sleep(3)
-        # SE DEBE BUSCAR EL ULTIMO TAG DE RESPUESTA PARA PODER SACARLE EL TEXTO
-        # EL PATH DE LAST NO SIRVE AL PARECER
-        WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((By.XPATH, '(//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div/div)[last()]/div/div[2]/div[1]/div/div/p'), 'SAIGO.'))
-        text_field = '(//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div/div)[last()]'
-        time.sleep(3)
+    def send_message(self,message):
+        # waiting 1 second to send message
+        #time.sleep(1)
+        self.driver.find_element(By.XPATH,'//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[2]/textarea').send_keys(message + Keys.ENTER)
+        time.sleep(300/1000)
         
+    
+    def read_response(self):
+        WebDriverWait(self.driver, 20).until(EC.text_to_be_present_in_element((By.XPATH, '//div[@class="group w-full text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]"][last()]/div/div[2]/div[1]/div/div/p[last()]'),'SAIGO')) #Find element by text
+        #WebDriverWait(self.driver, 19).until(lambda driver: driver.execute_script("return document.readyState") == "complete")
+        answer = self.driver.find_elements(By.XPATH,'//div[@class="group w-full text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]"][last()]/div/div[2]/div[1]/div/div/p')
+        answer = [tag.text for tag in answer]
+        answer = '. \n'.join(answer)
+        # BUSCAR EXTRAER TODA LA RESPUESTA  PARA IMPRIMIRLA
+        return answer

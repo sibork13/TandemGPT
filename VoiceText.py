@@ -9,8 +9,9 @@ class Voice_Text():
         self.r = sr.Recognizer()
 
 
-    def VtT_comverter(self):
+    def VtT_converter(self):
         # Escuchar la respuesta del usuario y transcribirla
+        print('Please say something')
         with sr.Microphone(device_index=4) as source:
             audio = self.r.listen(source)
 
