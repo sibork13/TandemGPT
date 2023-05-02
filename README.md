@@ -37,8 +37,9 @@ A code made in python to practice your speaking anytime using **chatgpt** as a l
 
 ## Status
 
-Until now only can open chatgpt bypassing login process.
-Voice to text and text to voice classes are already made it but not yet used.
+Chatgpt login bypass finished.
+It can start conversation with keyboard input.
+Missing detect when finished typing a response 
 
 
 ## Diagram
