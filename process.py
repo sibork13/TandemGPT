@@ -14,7 +14,7 @@ CO.get_cookies_txt(site)
 #site_url = 'https://www.twitch.tv/'
 #site_url = 'https://chat.openai.com/'
 
-site_url ='https://chat.openai.com/c/efaab2ce-68a3-4c79-b20a-e6a58d9465b0'
+site_url ='your_url'
 wb = Webdriver(site_url)
 TV = Text_Voice()
 VT = Voice_Text()
