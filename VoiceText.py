@@ -16,8 +16,11 @@ class Voice_Text():
             audio = self.r.listen(source)
 
         try:
+            print('End of recording')
             transcription = self.r.recognize_sphinx(audio)
             print("Transcription: " + transcription)
+            return transcription
         except sr.UnknownValueError:
             print("Unable to transcribe audio")
-        return transcription
+        
+    

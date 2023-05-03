@@ -10,8 +10,9 @@ class Text_Voice():
 
         # Configurar el volumen de la voz
         self.engine.setProperty('volume', 0.7) # Volumen al 70% (valor entre 0 y 1)
-        self.engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_JA-JP_HARUKA_11.0')
+        self.engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0')
 
     def TtV_converter(self,text):
         self.engine.say(text)
         self.engine.runAndWait()
+        
