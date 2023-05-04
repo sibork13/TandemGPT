@@ -1,0 +1,11 @@
+{
+    "Default" : {
+        "initial_prompt" : "You: What have you been up to?\nFriend: listening japanese music.\nYou: Did you listen anything interesting?\nFriend:",
+        "bot_name" : "Friend",
+        "model" : "GPT-4",
+        "prompt" : "",
+        "language_path" : "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0",
+        "volume" : 0.7,
+        "wpm" : 130
+    }
+}

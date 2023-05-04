@@ -1,17 +1,18 @@
 import pyttsx3
 
 class Text_Voice():
-    def __init__(self):
-        # Inicializar el motor de síntesis de voz
+    def __init__(self,language_path,volume,wpm):
+        # Start voice synthesiser
         self.engine = pyttsx3.init()
 
-        # Configurar la velocidad de la voz
-        self.engine.setProperty('rate', 130)   # Velocidad de 150 palabras por minuto
+        # Set words per minute
+        self.engine.setProperty('rate', wpm) 
 
-        # Configurar el volumen de la voz
-        self.engine.setProperty('volume', 0.7) # Volumen al 70% (valor entre 0 y 1)
-        self.engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_JA-JP_HARUKA_11.0')
+        # Set volume
+        self.engine.setProperty('volume', volume) # (value between 0 and 1)
+        self.engine.setProperty('voice', language_path)
 
     def TtV_converter(self,text):
         self.engine.say(text)
         self.engine.runAndWait()
+        
