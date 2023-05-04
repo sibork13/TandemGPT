@@ -1,27 +1,32 @@
 from VoiceText import Voice_Text
 from TextVoice import Text_Voice
 from chatbot import chatgpt
+import json
 
+config = json.loads("Config.json")["Default"]
 
-TV = Text_Voice()
+initial_prompt = config["initial_prompt"]
+bot_name = config["bot_name"]
+model = config["model"]
+prompt = config["prompt"]
+language_path = config["language_path"]
+volume = config["volume"]
+wpm = config["wpm"]
+
+TV = Text_Voice(language_path,volume,wpm)
 VT = Voice_Text()
-gpt = chatgpt()
+gpt = chatgpt(model)
 
-initial_prompt = "You: What have you been up to?\nFriend: listening japanese music.\nYou: Did you listen anything interesting?\nFriend:"
-
-#initial_prompt = "The following is a conversation with japanese friend, all conversation will be on japanese.\nyou:ね、ししゃものことを聞きますか\nfriend: 新しいアルバムのこと？\nyou:うん、めっちゃいいでしょう？"
-prompt = ''
 
 if __name__ == '__main__':
     try:
-        response = gpt.chat(initial_prompt)
+        response = gpt.chat(initial_prompt,bot_name)
         TV.TtV_converter(response)
-        #prompt = 'you: ' + VT.VtT_converter()
         
         while prompt != 'exit':
             prompt = 'you: ' + VT.VtT_converter()
             print(prompt)
-            response = gpt.chat(prompt)
+            response = gpt.chat(prompt,bot_name)
             TV.TtV_converter(response)
         
         
